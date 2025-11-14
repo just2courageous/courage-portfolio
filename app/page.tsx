@@ -323,7 +323,8 @@ export default function Home() {
                 internships.
               </p>
               <p className="text-xs text-slate-400">
-                Based in Canada, open to remote-friendly teams.
+                Based in Canada, open to remote-friendly teams. Email or
+                LinkedIn are usually the fastest ways to reach me.
               </p>
             </div>
             <div className="flex flex-wrap gap-2 text-xs">
@@ -350,8 +351,104 @@ export default function Home() {
             </div>
           </div>
 
+          {/* contact form + LinkedIn badge */}
+          <div className="mt-6 flex flex-col gap-4 md:flex-row">
+            {/* simple Formspree form (replace YOUR_FORM_ID later) */}
+            <form
+              action="https://formspree.io/f/YOUR_FORM_ID"
+              method="POST"
+              className="flex-1 space-y-3 rounded-3xl border border-slate-800/80 bg-slate-950/60 p-4 text-xs text-slate-200"
+            >
+              <p className="text-sm font-semibold text-slate-50">
+                Quick message
+              </p>
+              <p className="text-[11px] text-slate-400">
+                This form sends me an email. Replace the Formspree URL later
+                with your own endpoint.
+              </p>
+
+              <div className="space-y-1">
+                <label className="block text-[11px] text-slate-400">
+                  Name
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  required
+                  className="w-full rounded-xl border border-slate-700 bg-slate-900/80 px-3 py-2 text-xs text-slate-100 outline-none focus:border-emerald-400"
+                  placeholder="Your name"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="block text-[11px] text-slate-400">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  className="w-full rounded-xl border border-slate-700 bg-slate-900/80 px-3 py-2 text-xs text-slate-100 outline-none focus:border-emerald-400"
+                  placeholder="you@example.com"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="block text-[11px] text-slate-400">
+                  Message
+                </label>
+                <textarea
+                  name="message"
+                  required
+                  rows={4}
+                  className="w-full resize-none rounded-xl border border-slate-700 bg-slate-900/80 px-3 py-2 text-xs text-slate-100 outline-none focus:border-emerald-400"
+                  placeholder="How can I help?"
+                />
+              </div>
+
+              <input
+                type="hidden"
+                name="_subject"
+                value="New message from courageerhabor.com"
+              />
+
+              <button
+                type="submit"
+                className="inline-flex items-center justify-center rounded-full bg-emerald-400 px-4 py-2 text-xs font-semibold text-slate-950 shadow-sm shadow-emerald-400/40 transition hover:bg-emerald-300"
+              >
+                Send message
+              </button>
+            </form>
+
+            {/* LinkedIn profile badge */}
+            <div className="flex-1 rounded-3xl border border-slate-800/80 bg-slate-950/60 p-4 text-xs text-slate-200">
+              <p className="mb-2 text-sm font-semibold text-slate-50">
+                LinkedIn
+              </p>
+              <p className="mb-3 text-[11px] text-slate-400">
+                You can also connect with me directly on LinkedIn.
+              </p>
+              <div
+                className="badge-base LI-profile-badge"
+                data-locale="en_US"
+                data-size="medium"
+                data-theme="dark"
+                data-type="HORIZONTAL"
+                data-vanity="courageerhabor"
+                data-version="v1"
+              >
+                <a
+                  className="badge-base__link LI-simple-link"
+                  href="https://www.linkedin.com/in/courageerhabor?trk=profile-badge"
+                >
+                  Courage Erhabor
+                </a>
+              </div>
+            </div>
+          </div>
+
           <footer className="mt-6 flex flex-col items-start justify-between gap-2 border-t border-slate-800/80 pt-4 text-[11px] text-slate-500 md:flex-row md:items-center">
-            <span>© {year} Courage Erhabor. Built with Next.js & Tailwind.</span>
+            <span>© {year} Courage Erhabor. Built with Next.js &amp; Tailwind.</span>
             <span className="text-slate-500">
               Hosting on Vercel · Domain: courageerhabor.com
             </span>

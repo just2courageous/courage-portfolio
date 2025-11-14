@@ -18,15 +18,15 @@ const projects = [
     result: "Downtime reduced by ~90%",
     stack: "AWS · EKS · Helm · HPA · CloudWatch · Grafana",
     description:
-      "Designed a Kubernetes workload on EKS with health checks, horizontal pod autoscaling, and dashboards for latency, error rates, and saturation. Focused on quick recovery and smooth deployments.",
+      "EKS workload with health checks, horizontal pod autoscaling, and dashboards for latency, error rates, and saturation.",
   },
   {
     tag: "CI/CD",
     title: "GitHub Actions → EC2 pipeline",
-    result: "Releases from 30 min down to ~5 min",
+    result: "Releases: 30 min → ~5 min",
     stack: "GitHub Actions · EC2 · Docker · Blue/Green",
     description:
-      "Built a CI/CD pipeline that runs tests, builds Docker images, and ships to EC2 with blue/green style releases and simple rollback.",
+      "Pipeline that builds, tests, creates Docker images, and deploys to EC2 with simple rollback when checks fail.",
   },
   {
     tag: "IaC",
@@ -34,19 +34,21 @@ const projects = [
     result: "Repeatable, secure-by-default foundation",
     stack: "Terraform · AWS · VPC · EKS · IAM",
     description:
-      "Provisioned VPC, private subnets, EKS cluster, and least-privilege IAM roles so workloads start with guardrails built in.",
+      "VPC, subnets, EKS, and least-privilege IAM roles provisioned as code for consistent environments.",
   },
 ];
 
 export default function Home() {
+  const year = new Date().getFullYear();
+
   return (
     <main className="min-h-screen bg-slate-950 text-slate-100">
-      {/* gradient background */}
+      {/* background */}
       <div className="pointer-events-none fixed inset-0 -z-10 bg-gradient-to-b from-slate-950 via-slate-950 to-slate-900" />
       <div className="pointer-events-none fixed inset-x-0 top-0 -z-10 h-72 bg-[radial-gradient(circle_at_top,rgba(52,211,153,0.18),transparent_60%)]" />
 
       <div className="mx-auto flex min-h-screen max-w-5xl flex-col px-4 pb-10 pt-6 md:px-6 md:pb-16 md:pt-10">
-        {/* top nav */}
+        {/* header */}
         <header className="mb-8 flex items-center justify-between gap-4">
           <div className="inline-flex items-center gap-2 rounded-full border border-slate-800/80 bg-slate-900/70 px-3 py-1 text-xs text-slate-300">
             <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500/15 text-base">
@@ -83,7 +85,7 @@ export default function Home() {
         <section className="mb-10 grid gap-8 md:grid-cols-[minmax(0,3fr)_minmax(0,2.2fr)] md:items-center">
           <div>
             <p className="mb-3 inline-flex items-center gap-2 rounded-full border border-slate-800/80 bg-slate-900/80 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.18em] text-emerald-300/90">
-              <span>Now open to DevOps / SRE roles</span>
+              Now open to DevOps / SRE roles
             </p>
             <h1 className="mb-4 text-3xl font-semibold tracking-tight md:text-4xl lg:text-[2.6rem]">
               Building reliable cloud systems with{" "}
@@ -94,9 +96,9 @@ export default function Home() {
             </h1>
             <p className="mb-3 text-sm text-slate-300 md:text-[15px]">
               I design and automate cloud infrastructure on AWS using
-              Terraform, CI/CD, and Kubernetes (EKS) so teams can ship
-              faster with less downtime. My focus is smooth releases,
-              observability, and least-privilege security.
+              Terraform, CI/CD, and Kubernetes (EKS) so teams can ship faster
+              with less downtime. Focus: smooth releases, observability, and
+              least-privilege security.
             </p>
             <p className="mb-6 text-xs text-slate-400">
               Dean&apos;s Honour List (2×) · Computer Systems Technician at
@@ -120,7 +122,7 @@ export default function Home() {
               </Link>
               <a
                 href="mailto:erhacour@gmail.com"
-                className="inline-flex items-center justify-center rounded-full border border-transparent px-3 py-2 text-xs font-medium text-slate-300 hover:text-emerald-200"
+                className="inline-flex items-center justify-center rounded-full border border-slate-700 bg-slate-950/40 px-4 py-2 text-xs font-medium text-slate-100 transition hover:border-emerald-300 hover:text-emerald-200"
               >
                 Email me
               </a>
@@ -139,9 +141,7 @@ export default function Home() {
             </p>
             <div className="grid grid-cols-2 gap-3">
               <div className="rounded-2xl bg-slate-950/60 p-3">
-                <p className="text-[11px] text-slate-400">
-                  Cloud & Infra
-                </p>
+                <p className="text-[11px] text-slate-400">Cloud & Infra</p>
                 <p className="text-sm font-semibold text-slate-50">
                   AWS · Terraform · EKS
                 </p>
@@ -168,8 +168,8 @@ export default function Home() {
               </div>
             </div>
             <p className="text-[11px] text-slate-400">
-              I like infrastructure that heals itself, pipelines that
-              always run, and dashboards that tell the truth.
+              I like infrastructure that heals itself, pipelines that always
+              run, and dashboards that tell the truth.
             </p>
           </div>
         </section>
@@ -233,7 +233,7 @@ export default function Home() {
                 <p className="mb-3 text-xs text-slate-300">
                   {project.description}
                 </p>
-                <div className="mt-auto flex items-center justify-between pt-1">
+                <div className="mt-auto pt-1">
                   <a
                     href="https://github.com/just2courageous"
                     target="_blank"
@@ -279,8 +279,8 @@ export default function Home() {
                 build, test, and deployment to EC2 and Kubernetes.
               </li>
               <li>
-                • Added CloudWatch and Grafana dashboards plus runbooks to
-                make failures visible and recovery steps repeatable.
+                • Added CloudWatch and Grafana dashboards plus runbooks so
+                failures are visible and recovery steps are repeatable.
               </li>
             </ul>
           </div>
@@ -302,8 +302,8 @@ export default function Home() {
               <span className="font-semibold text-slate-50">
                 Dean&apos;s Honour List
               </span>{" "}
-              · George Brown College – Recognized twice for academic
-              excellence in the Computer Systems Technician program.
+              · George Brown College – Recognized twice for academic excellence
+              in the Computer Systems Technician program.
             </p>
           </div>
         </section>
@@ -323,8 +323,7 @@ export default function Home() {
                 internships.
               </p>
               <p className="text-xs text-slate-400">
-                Best way to reach me is email or LinkedIn. I&apos;m based in
-                Canada and open to remote-friendly teams.
+                Based in Canada, open to remote-friendly teams.
               </p>
             </div>
             <div className="flex flex-wrap gap-2 text-xs">
@@ -344,7 +343,7 @@ export default function Home() {
               <Link
                 href="https://github.com/just2courageous"
                 target="_blank"
-                className="inline-flex items-center justify-center rounded-full border border-transparent px-3 py-2 font-medium text-slate-300 hover:text-emerald-200"
+                className="inline-flex items-center justify-center rounded-full border border-slate-700 bg-slate-950/60 px-4 py-2 font-medium text-slate-100 transition hover:border-emerald-300 hover:text-emerald-200"
               >
                 GitHub profile
               </Link>
@@ -352,10 +351,7 @@ export default function Home() {
           </div>
 
           <footer className="mt-6 flex flex-col items-start justify-between gap-2 border-t border-slate-800/80 pt-4 text-[11px] text-slate-500 md:flex-row md:items-center">
-            <span>
-              © {new Date().getFullYear()} Courage Erhabor. Built with Next.js
-              & Tailwind.
-            </span>
+            <span>© {year} Courage Erhabor. Built with Next.js & Tailwind.</span>
             <span className="text-slate-500">
               Hosting on Vercel · Domain: courageerhabor.com
             </span>

@@ -355,7 +355,7 @@ export default function Home() {
           <div className="mt-6 flex flex-col gap-4 md:flex-row">
             {/* simple Formspree form (replace YOUR_FORM_ID later) */}
             <form
-              action="https://formspree.io/f/YOUR_FORM_ID"
+              action="https://formspree.io/f/xnnljnzb"
               method="POST"
               className="flex-1 space-y-3 rounded-3xl border border-slate-800/80 bg-slate-950/60 p-4 text-xs text-slate-200"
             >

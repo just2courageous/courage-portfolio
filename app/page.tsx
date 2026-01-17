@@ -1,45 +1,97 @@
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
 
 const skills = [
-  "AWS",
-  "Terraform (IaC)",
-  "CI/CD (GitHub Actions)",
-  "Docker & Kubernetes (EKS)",
-  "Observability (CloudWatch & Grafana)",
-  "Scaling & HPA",
-  "Least-privilege IAM",
-  "Runbooks & incident response",
+  "AWS (Amazon Web Services)",
+  "Terraform (Infrastructure as Code)",
+  "Kubernetes (Container Orchestration) — EKS (Elastic Kubernetes Service)",
+  "Docker (Containerization)",
+  "GitHub Actions (CI/CD — Continuous Integration/Continuous Delivery)",
+  "GitOps (Git Operations) — Argo CD (Continuous Delivery)",
+  "Argo Rollouts (Progressive Delivery) + HPA (Horizontal Pod Autoscaler)",
+  "Fluent Bit (Log Shipper) → CloudWatch Logs (Amazon CloudWatch Logs)",
+  "Prometheus (Metrics) + Grafana (Dashboards)",
+  "Linux (Operating System) + Bash (Shell) + Python (Programming Language)",
+  "IAM (Identity and Access Management) — least-privilege + IRSA (IAM Roles for Service Accounts)",
+  "Runbooks (Operational Guides) + incident response",
 ];
 
 const projects = [
   {
-    tag: "Self-healing",
-    title: "Self-healing AWS web cluster",
-    result: "Downtime reduced by ~90%",
-    stack: "AWS · EKS · Helm · HPA · CloudWatch · Grafana",
+    tag: "End-to-end",
+    title: "green-guard",
+    result: "GitOps delivery demo",
+    stack: "FastAPI · Docker · GitHub Actions · Argo CD · Kubernetes (EKS)",
     description:
-      "EKS workload with health checks, horizontal pod autoscaling, and dashboards for latency, error rates, and saturation.",
+      "End-to-end release flow: build + containerize → publish image → GitOps sync → progressive rollout on Kubernetes.",
+    repoUrl: "https://github.com/just2courageous/green-guard",
+    archImage: "/projects/green-guard/green-guard-arch.png",
+    screenshots: [
+      "/projects/green-guard/02-actions-green.png",
+      "/projects/green-guard/07-argocd-synced.png",
+      "/projects/green-guard/05-rollout-success.png",
+    ],
   },
   {
-    tag: "CI/CD",
-    title: "GitHub Actions → EC2 pipeline",
-    result: "Releases: 30 min → ~5 min",
-    stack: "GitHub Actions · EC2 · Docker · Blue/Green",
+    tag: "Progressive delivery",
+    title: "gg-rollouts-hpa",
+    result: "Canary + autoscaling",
+    stack: "Argo Rollouts · HPA · Prometheus/Grafana · Kubernetes (EKS)",
     description:
-      "Pipeline that builds, tests, creates Docker images, and deploys to EC2 with simple rollback when checks fail.",
+      "Canary releases with Argo Rollouts and autoscaling with HPA, backed by observability and rollout proofs.",
+    repoUrl: "https://github.com/just2courageous/gg-rollouts-hpa",
+    archImage: "/projects/gg-rollouts-hpa/gg-rollouts-hpa-arch.png",
+    screenshots: [
+      "/projects/gg-rollouts-hpa/p10-rollout-created.png",
+      "/projects/gg-rollouts-hpa/p10-hpa-success.png",
+      "/projects/gg-rollouts-hpa/p10-final-stable.png",
+    ],
+  },
+  {
+    tag: "Logging",
+    title: "gg-logging-cloudwatch",
+    result: "No static AWS keys",
+    stack: "Fluent Bit · CloudWatch Logs · IRSA (OIDC) · Kubernetes (EKS)",
+    description:
+      "Centralized cluster logging on EKS: Fluent Bit ships pod logs into CloudWatch Logs using IRSA (OIDC) authentication.",
+    repoUrl: "https://github.com/just2courageous/gg-logging-cloudwatch",
+    archImage: "/projects/gg-logging-cloudwatch/gg-logging-cloudwatch-arch.png",
+    screenshots: [
+      "/projects/gg-logging-cloudwatch/p11-pods-running.png",
+      "/projects/gg-logging-cloudwatch/p11-cloudwatch-log-streams.png",
+      "/projects/gg-logging-cloudwatch/p11-irsa-role.png",
+    ],
   },
   {
     tag: "IaC",
-    title: "Terraform AWS baseline",
-    result: "Repeatable, secure-by-default foundation",
-    stack: "Terraform · AWS · VPC · EKS · IAM",
+    title: "gg-eks-terraform",
+    result: "Repeatable cluster builds",
+    stack: "Terraform · VPC · IAM · EKS (Elastic Kubernetes Service)",
     description:
-      "VPC, subnets, EKS, and least-privilege IAM roles provisioned as code for consistent environments.",
+      "Terraform IaC for a production-style EKS baseline: networking, cluster, nodegroup, and IAM roles with clean teardown.",
+    repoUrl: "https://github.com/just2courageous/gg-eks-terraform",
+    archImage: "/projects/gg-eks-terraform/gg-eks-terraform-arch.png",
+    screenshots: [
+      "/projects/gg-eks-terraform/terraform-apply-complete.png",
+      "/projects/gg-eks-terraform/kubectl-get-nodes.png",
+      "/projects/gg-eks-terraform/kube-system-pods.png",
+    ],
   },
 ];
 
 export default function Home() {
   const year = new Date().getFullYear();
+
+  // ✅ Bigger avatar with safe fallback
+  const [avatarOk, setAvatarOk] = useState(true);
+
+  // ✅ Consistent hover: nothing is “pre-highlighted”
+  const btn =
+    "inline-flex items-center justify-center rounded-full border border-slate-700 bg-slate-950/55 px-4 py-2 font-medium text-slate-100 transition hover:border-emerald-300 hover:bg-emerald-400 hover:text-slate-950 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/60";
+  const btnSm =
+    "inline-flex items-center justify-center rounded-full border border-slate-700 bg-slate-950/55 px-4 py-2 text-xs font-medium text-slate-100 transition hover:border-emerald-300 hover:bg-emerald-400 hover:text-slate-950 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/60";
 
   return (
     <main className="min-h-screen bg-slate-950 text-slate-100">
@@ -48,18 +100,37 @@ export default function Home() {
       <div className="pointer-events-none fixed inset-x-0 top-0 -z-10 h-72 bg-[radial-gradient(circle_at_top,rgba(52,211,153,0.18),transparent_60%)]" />
 
       <div className="mx-auto flex min-h-screen max-w-5xl flex-col px-4 pb-10 pt-6 md:px-6 md:pb-16 md:pt-10">
-        {/* header */}
+        {/* ✅ HEADER (only area changed): bigger avatar + name/title side-by-side */}
         <header className="mb-8 flex items-center justify-between gap-4">
-          <div className="inline-flex items-center gap-2 rounded-full border border-slate-800/80 bg-slate-900/70 px-3 py-1 text-xs text-slate-300">
-            <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500/15 text-base">
-              ⚙️
-            </span>
-            <span className="font-semibold tracking-tight">
-              Courage Erhabor
-            </span>
-            <span className="ml-1 text-[11px] text-emerald-300/80">
-              DevOps Engineer · SRE
-            </span>
+          <div className="flex items-center gap-4">
+            {/* BIG AVATAR */}
+            <div className="relative h-32 w-32 overflow-hidden rounded-full border-2 border-emerald-400/45 bg-slate-950/60 shadow-xl shadow-emerald-900/25 md:h-40 md:w-40">
+              {avatarOk ? (
+                <img
+                  src="/headshot.jpg"
+                  alt="Courage Erhabor"
+                  className="h-full w-full object-cover"
+                  loading="lazy"
+                  onError={() => setAvatarOk(false)}
+                />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center text-4xl font-bold text-emerald-200">
+                  CE
+                </div>
+              )}
+            </div>
+
+            {/* NAME + TITLE PILL (side-by-side like your sketch) */}
+            <div className="rounded-full border border-slate-800/80 bg-slate-900/70 px-5 py-3">
+              <div className="flex items-baseline gap-4 leading-none">
+                <span className="text-[18px] font-semibold tracking-tight text-slate-100 md:text-[20px]">
+                  Courage Erhabor
+                </span>
+                <span className="text-[13px] font-medium text-emerald-300/85 md:text-[14px]">
+                  DevOps Engineer
+                </span>
+              </div>
+            </div>
           </div>
 
           <nav className="hidden items-center gap-4 text-xs text-slate-300 md:flex">
@@ -85,8 +156,9 @@ export default function Home() {
         <section className="mb-10 grid gap-8 md:grid-cols-[minmax(0,3fr)_minmax(0,2.2fr)] md:items-center">
           <div>
             <p className="mb-3 inline-flex items-center gap-2 rounded-full border border-slate-800/80 bg-slate-900/80 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.18em] text-emerald-300/90">
-              Now open to DevOps / SRE roles
+              Now open to DevOps roles
             </p>
+
             <h1 className="mb-4 text-3xl font-semibold tracking-tight md:text-4xl lg:text-[2.6rem]">
               Building reliable cloud systems with{" "}
               <span className="bg-gradient-to-r from-emerald-400 to-lime-300 bg-clip-text text-transparent">
@@ -94,42 +166,43 @@ export default function Home() {
               </span>
               .
             </h1>
+
             <p className="mb-3 text-sm text-slate-300 md:text-[15px]">
-              I design and automate cloud infrastructure on AWS using
-              Terraform, CI/CD, and Kubernetes (EKS) so teams can ship faster
-              with less downtime. Focus: smooth releases, observability, and
+              I design and automate cloud infrastructure on AWS using Terraform,
+              CI/CD, and Kubernetes (EKS) so teams can ship faster with less
+              downtime. Focus: smooth releases, observability, and
               least-privilege security.
             </p>
+
             <p className="mb-6 text-xs text-slate-400">
-              Dean&apos;s Honour List (2×) · Computer Systems Technician at
-              George Brown College.
+              Dean&apos;s Honour List (2×) · Computer Systems Technician at George
+              Brown College.
             </p>
 
             <div className="flex flex-wrap gap-3 text-sm">
               <Link
                 href="https://github.com/just2courageous"
                 target="_blank"
-                className="inline-flex items-center justify-center rounded-full bg-emerald-400 px-4 py-2 text-sm font-medium text-slate-950 shadow-sm shadow-emerald-400/40 transition hover:bg-emerald-300"
+                rel="noreferrer"
+                className={btn}
               >
                 View GitHub
               </Link>
+
               <Link
                 href="https://linkedin.com/in/courageerhabor"
                 target="_blank"
-                className="inline-flex items-center justify-center rounded-full border border-slate-700 bg-slate-950/40 px-4 py-2 text-sm font-medium text-slate-100 transition hover:border-emerald-400/70 hover:text-emerald-200"
+                rel="noreferrer"
+                className={btn}
               >
                 Connect on LinkedIn
               </Link>
-              <a
-                href="mailto:erhacour@gmail.com"
-                className="inline-flex items-center justify-center rounded-full border border-slate-700 bg-slate-950/40 px-4 py-2 text-xs font-medium text-slate-100 transition hover:border-emerald-300 hover:text-emerald-200"
-              >
+
+              <a href="mailto:erhacour@gmail.com" className={btnSm}>
                 Email me
               </a>
-              <a
-                href="/resume/courage-erhabor-resume.pdf"
-                className="inline-flex items-center justify-center rounded-full border border-slate-700 bg-slate-950/60 px-4 py-2 text-xs font-medium text-slate-100 transition hover:border-emerald-300 hover:text-emerald-200"
-              >
+
+              <a href="/resume/courage-erhabor-resume.pdf" className={btnSm}>
                 Download resume
               </a>
             </div>
@@ -139,37 +212,44 @@ export default function Home() {
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">
               Snapshot
             </p>
+
             <div className="grid grid-cols-2 gap-3">
               <div className="rounded-2xl bg-slate-950/60 p-3">
-                <p className="text-[11px] text-slate-400">Cloud & Infra</p>
+                <p className="text-[11px] text-slate-400">Cloud &amp; Infra</p>
                 <p className="text-sm font-semibold text-slate-50">
-                  AWS · Terraform · EKS
+                  AWS · Terraform · EKS (Elastic Kubernetes Service)
                 </p>
               </div>
+
               <div className="rounded-2xl bg-slate-950/60 p-3">
                 <p className="text-[11px] text-slate-400">Delivery</p>
                 <p className="text-sm font-semibold text-slate-50">
-                  GitHub Actions CI/CD
+                  GitHub Actions (CI/CD — Continuous Integration/Continuous
+                  Delivery)
                 </p>
               </div>
+
               <div className="rounded-2xl bg-slate-950/60 p-3">
                 <p className="text-[11px] text-slate-400">
-                  Reliability focus
+                  Scaling &amp; resilience
                 </p>
                 <p className="text-sm font-semibold text-slate-50">
-                  Health checks, HPA, rollback
+                  HPA (Horizontal Pod Autoscaler), health checks, rollback
                 </p>
               </div>
+
               <div className="rounded-2xl bg-slate-950/60 p-3">
-                <p className="text-[11px] text-slate-400">Signals</p>
+                <p className="text-[11px] text-slate-400">Observability</p>
                 <p className="text-sm font-semibold text-slate-50">
-                  CloudWatch & Grafana dashboards
+                  CloudWatch (Amazon CloudWatch) · Grafana (Dashboards) · Fluent
+                  Bit (Log Shipper)
                 </p>
               </div>
             </div>
+
             <p className="text-[11px] text-slate-400">
-              I like infrastructure that heals itself, pipelines that always
-              run, and dashboards that tell the truth.
+              I like infrastructure that heals itself, pipelines that always run,
+              and dashboards that tell the truth.
             </p>
           </div>
         </section>
@@ -184,9 +264,10 @@ export default function Home() {
               🧰
             </div>
             <h2 className="text-base font-semibold tracking-tight md:text-lg">
-              Skills that match DevOps / SRE roles
+              Skills that match DevOps roles
             </h2>
           </header>
+
           <ul className="flex flex-wrap gap-2 text-xs">
             {skills.map((skill) => (
               <li
@@ -210,7 +291,7 @@ export default function Home() {
             </h2>
           </header>
 
-          <div className="grid gap-4 md:grid-cols-3">
+          <div className="grid gap-4 md:grid-cols-2">
             {projects.map((project) => (
               <article
                 key={project.title}
@@ -224,20 +305,54 @@ export default function Home() {
                     {project.result}
                   </span>
                 </div>
+
                 <h3 className="mb-1 text-sm font-semibold text-slate-50">
                   {project.title}
                 </h3>
-                <p className="mb-2 text-[11px] text-slate-400">
-                  {project.stack}
-                </p>
-                <p className="mb-3 text-xs text-slate-300">
-                  {project.description}
-                </p>
+                <p className="mb-2 text-[11px] text-slate-400">{project.stack}</p>
+                <p className="mb-3 text-xs text-slate-300">{project.description}</p>
+
+                <div className="mb-3 grid gap-2">
+                  <a
+                    href={project.archImage}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="overflow-hidden rounded-2xl border border-slate-800/80 bg-slate-950/60 p-2"
+                  >
+                    <img
+                      src={project.archImage}
+                      alt={`${project.title} architecture diagram`}
+                      className="h-44 w-full object-contain transition group-hover:scale-[1.01]"
+                      loading="lazy"
+                    />
+                  </a>
+
+                  <div className="grid grid-cols-3 gap-2">
+                    {project.screenshots.map((src) => (
+                      <a
+                        key={src}
+                        href={src}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="overflow-hidden rounded-2xl border border-slate-800/80 bg-slate-950/60"
+                      >
+                        <img
+                          src={src}
+                          alt={`${project.title} screenshot`}
+                          className="h-20 w-full object-cover"
+                          loading="lazy"
+                        />
+                      </a>
+                    ))}
+                  </div>
+                </div>
+
                 <div className="mt-auto pt-1">
                   <a
-                    href="https://github.com/just2courageous"
+                    href={project.repoUrl}
                     target="_blank"
-                    className="text-[11px] font-semibold text-emerald-300 hover:text-emerald-200"
+                    rel="noreferrer"
+                    className="text-[11px] font-semibold text-slate-300 transition hover:text-emerald-200 focus:outline-none focus-visible:rounded-md focus-visible:ring-2 focus-visible:ring-emerald-400/60"
                   >
                     View on GitHub →
                   </a>
@@ -264,23 +379,21 @@ export default function Home() {
                 Self-directed DevOps projects{" "}
                 <span className="text-slate-400">· Personal portfolio</span>
               </div>
-              <div className="text-[11px] text-slate-400">
-                2024 – Present
-              </div>
+              <div className="text-[11px] text-slate-400">2024 – Present</div>
             </div>
+
             <ul className="space-y-2">
               <li>
-                • Built AWS environments with Terraform and deployed
-                containerized workloads on EKS behind proper networking and
-                health checks.
+                • Built AWS environments with Terraform and deployed containerized
+                workloads on EKS behind proper networking and health checks.
               </li>
               <li>
                 • Implemented CI/CD pipelines with GitHub Actions to automate
-                build, test, and deployment to EC2 and Kubernetes.
+                build, test, and deployment.
               </li>
               <li>
-                • Added CloudWatch and Grafana dashboards plus runbooks so
-                failures are visible and recovery steps are repeatable.
+                • Added CloudWatch and Grafana dashboards plus runbooks so failures
+                are visible and recovery steps are repeatable.
               </li>
             </ul>
           </div>
@@ -302,8 +415,8 @@ export default function Home() {
               <span className="font-semibold text-slate-50">
                 Dean&apos;s Honour List
               </span>{" "}
-              · George Brown College – Recognized twice for academic excellence
-              in the Computer Systems Technician program.
+              · George Brown College – Recognized twice for academic excellence in
+              the Computer Systems Technician program.
             </p>
           </div>
         </section>
@@ -319,58 +432,53 @@ export default function Home() {
                 Contact
               </p>
               <p className="text-sm font-semibold text-slate-50">
-                Let&apos;s talk about DevOps / SRE roles, projects, or
-                internships.
+                Let&apos;s talk about DevOps roles, projects, or internships.
               </p>
               <p className="text-xs text-slate-400">
-                Based in Canada, open to remote-friendly teams. Email or
-                LinkedIn are usually the fastest ways to reach me.
+                Based in Canada, open to remote-friendly teams. Email or LinkedIn are
+                usually the fastest ways to reach me.
               </p>
             </div>
+
             <div className="flex flex-wrap gap-2 text-xs">
-              <a
-                href="mailto:erhacour@gmail.com"
-                className="inline-flex items-center justify-center rounded-full bg-emerald-400 px-4 py-2 font-medium text-slate-950 shadow-sm shadow-emerald-400/40 transition hover:bg-emerald-300"
-              >
+              <a href="mailto:erhacour@gmail.com" className={btnSm}>
                 Email Courage
               </a>
+
               <Link
                 href="https://linkedin.com/in/courageerhabor"
                 target="_blank"
-                className="inline-flex items-center justify-center rounded-full border border-slate-700 bg-slate-950/60 px-4 py-2 font-medium text-slate-100 transition hover:border-emerald-300 hover:text-emerald-200"
+                rel="noreferrer"
+                className={btnSm}
               >
                 View LinkedIn
               </Link>
+
               <Link
                 href="https://github.com/just2courageous"
                 target="_blank"
-                className="inline-flex items-center justify-center rounded-full border border-slate-700 bg-slate-950/60 px-4 py-2 font-medium text-slate-100 transition hover:border-emerald-300 hover:text-emerald-200"
+                rel="noreferrer"
+                className={btnSm}
               >
                 GitHub profile
               </Link>
             </div>
           </div>
 
-          {/* contact form + LinkedIn badge */}
           <div className="mt-6 flex flex-col gap-4 md:flex-row">
-            {/* simple Formspree form (replace YOUR_FORM_ID later) */}
+            {/* Formspree */}
             <form
               action="https://formspree.io/f/xnnljnzb"
               method="POST"
               className="flex-1 space-y-3 rounded-3xl border border-slate-800/80 bg-slate-950/60 p-4 text-xs text-slate-200"
             >
-              <p className="text-sm font-semibold text-slate-50">
-                Quick message
-              </p>
+              <p className="text-sm font-semibold text-slate-50">Quick message</p>
               <p className="text-[11px] text-slate-400">
-                This form sends me an email. Replace the Formspree URL later
-                with your own endpoint.
+                This form sends directly to my inbox.
               </p>
 
               <div className="space-y-1">
-                <label className="block text-[11px] text-slate-400">
-                  Name
-                </label>
+                <label className="block text-[11px] text-slate-400">Name</label>
                 <input
                   type="text"
                   name="name"
@@ -381,9 +489,7 @@ export default function Home() {
               </div>
 
               <div className="space-y-1">
-                <label className="block text-[11px] text-slate-400">
-                  Email
-                </label>
+                <label className="block text-[11px] text-slate-400">Email</label>
                 <input
                   type="email"
                   name="email"
@@ -394,9 +500,7 @@ export default function Home() {
               </div>
 
               <div className="space-y-1">
-                <label className="block text-[11px] text-slate-400">
-                  Message
-                </label>
+                <label className="block text-[11px] text-slate-400">Message</label>
                 <textarea
                   name="message"
                   required
@@ -412,22 +516,18 @@ export default function Home() {
                 value="New message from courageerhabor.com"
               />
 
-              <button
-                type="submit"
-                className="inline-flex items-center justify-center rounded-full bg-emerald-400 px-4 py-2 text-xs font-semibold text-slate-950 shadow-sm shadow-emerald-400/40 transition hover:bg-emerald-300"
-              >
+              <button type="submit" className={btnSm}>
                 Send message
               </button>
             </form>
 
-            {/* LinkedIn profile badge */}
+            {/* LinkedIn badge */}
             <div className="flex-1 rounded-3xl border border-slate-800/80 bg-slate-950/60 p-4 text-xs text-slate-200">
-              <p className="mb-2 text-sm font-semibold text-slate-50">
-                LinkedIn
-              </p>
+              <p className="mb-2 text-sm font-semibold text-slate-50">LinkedIn</p>
               <p className="mb-3 text-[11px] text-slate-400">
                 You can also connect with me directly on LinkedIn.
               </p>
+
               <div
                 className="badge-base LI-profile-badge"
                 data-locale="en_US"
@@ -440,6 +540,8 @@ export default function Home() {
                 <a
                   className="badge-base__link LI-simple-link"
                   href="https://www.linkedin.com/in/courageerhabor?trk=profile-badge"
+                  target="_blank"
+                  rel="noreferrer"
                 >
                   Courage Erhabor
                 </a>
@@ -450,7 +552,7 @@ export default function Home() {
           <footer className="mt-6 flex flex-col items-start justify-between gap-2 border-t border-slate-800/80 pt-4 text-[11px] text-slate-500 md:flex-row md:items-center">
             <span>© {year} Courage Erhabor. Built with Next.js &amp; Tailwind.</span>
             <span className="text-slate-500">
-              Hosting on Vercel · Domain: courageerhabor.com
+              Hosting on Vercel · Domain: courageerhabor.com · Last updated: January 2026
             </span>
           </footer>
         </section>

@@ -27,7 +27,6 @@ const projects = [
     description:
       "End-to-end release flow: build + containerize → publish image → GitOps sync → progressive rollout on Kubernetes.",
     repoUrl: "https://github.com/just2courageous/green-guard",
-    archImage: "/projects/green-guard/green-guard-arch.png",
     screenshots: [
       "/projects/green-guard/02-actions-green.png",
       "/projects/green-guard/07-argocd-synced.png",
@@ -42,7 +41,6 @@ const projects = [
     description:
       "Canary releases with Argo Rollouts and autoscaling with HPA, backed by observability and rollout proofs.",
     repoUrl: "https://github.com/just2courageous/gg-rollouts-hpa",
-    archImage: "/projects/gg-rollouts-hpa/gg-rollouts-hpa-arch.png",
     screenshots: [
       "/projects/gg-rollouts-hpa/p10-rollout-created.png",
       "/projects/gg-rollouts-hpa/p10-hpa-success.png",
@@ -57,7 +55,6 @@ const projects = [
     description:
       "Centralized cluster logging on EKS: Fluent Bit ships pod logs into CloudWatch Logs using IRSA (OIDC) authentication.",
     repoUrl: "https://github.com/just2courageous/gg-logging-cloudwatch",
-    archImage: "/projects/gg-logging-cloudwatch/gg-logging-cloudwatch-arch.png",
     screenshots: [
       "/projects/gg-logging-cloudwatch/p11-pods-running.png",
       "/projects/gg-logging-cloudwatch/p11-cloudwatch-log-streams.png",
@@ -72,7 +69,6 @@ const projects = [
     description:
       "Terraform IaC for a production-style EKS baseline: networking, cluster, nodegroup, and IAM roles with clean teardown.",
     repoUrl: "https://github.com/just2courageous/gg-eks-terraform",
-    archImage: "/projects/gg-eks-terraform/gg-eks-terraform-arch.png",
     screenshots: [
       "/projects/gg-eks-terraform/terraform-apply-complete.png",
       "/projects/gg-eks-terraform/kubectl-get-nodes.png",
@@ -93,6 +89,10 @@ export default function Home() {
   const btnSm =
     "inline-flex items-center justify-center rounded-full border border-slate-700 bg-slate-950/55 px-4 py-2 text-xs font-medium text-slate-100 transition hover:border-emerald-300 hover:bg-emerald-400 hover:text-slate-950 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/60";
 
+  // ✅ tiny “chip” style used in Proof row (matches your theme)
+  const chip =
+    "rounded-full border border-slate-800/80 bg-slate-950/60 px-3 py-1 font-semibold text-slate-300 transition hover:border-emerald-400/70 hover:text-emerald-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/60";
+
   return (
     <main className="min-h-screen bg-slate-950 text-slate-100">
       {/* background */}
@@ -100,7 +100,7 @@ export default function Home() {
       <div className="pointer-events-none fixed inset-x-0 top-0 -z-10 h-72 bg-[radial-gradient(circle_at_top,rgba(52,211,153,0.18),transparent_60%)]" />
 
       <div className="mx-auto flex min-h-screen max-w-5xl flex-col px-4 pb-10 pt-6 md:px-6 md:pb-16 md:pt-10">
-        {/* ✅ HEADER (only area changed): bigger avatar + name/title side-by-side */}
+        {/* ✅ HEADER */}
         <header className="mb-8 flex items-center justify-between gap-4">
           <div className="flex items-center gap-4">
             {/* BIG AVATAR */}
@@ -110,7 +110,10 @@ export default function Home() {
                   src="/headshot.jpg"
                   alt="Courage Erhabor"
                   className="h-full w-full object-cover"
-                  loading="lazy"
+                  style={{
+                    transform: "translateZ(0)",
+                    backfaceVisibility: "hidden",
+                  }}
                   onError={() => setAvatarOk(false)}
                 />
               ) : (
@@ -120,7 +123,7 @@ export default function Home() {
               )}
             </div>
 
-            {/* NAME + TITLE PILL (side-by-side like your sketch) */}
+            {/* NAME + TITLE PILL */}
             <div className="rounded-full border border-slate-800/80 bg-slate-900/70 px-5 py-3">
               <div className="flex items-baseline gap-4 leading-none">
                 <span className="text-[18px] font-semibold tracking-tight text-slate-100 md:text-[20px]">
@@ -174,11 +177,6 @@ export default function Home() {
               least-privilege security.
             </p>
 
-            <p className="mb-6 text-xs text-slate-400">
-              Dean&apos;s Honour List (2×) · Computer Systems Technician at George
-              Brown College.
-            </p>
-
             <div className="flex flex-wrap gap-3 text-sm">
               <Link
                 href="https://github.com/just2courageous"
@@ -224,8 +222,7 @@ export default function Home() {
               <div className="rounded-2xl bg-slate-950/60 p-3">
                 <p className="text-[11px] text-slate-400">Delivery</p>
                 <p className="text-sm font-semibold text-slate-50">
-                  GitHub Actions (CI/CD — Continuous Integration/Continuous
-                  Delivery)
+                  GitHub Actions (CI/CD — Continuous Integration/Continuous Delivery)
                 </p>
               </div>
 
@@ -241,8 +238,7 @@ export default function Home() {
               <div className="rounded-2xl bg-slate-950/60 p-3">
                 <p className="text-[11px] text-slate-400">Observability</p>
                 <p className="text-sm font-semibold text-slate-50">
-                  CloudWatch (Amazon CloudWatch) · Grafana (Dashboards) · Fluent
-                  Bit (Log Shipper)
+                  CloudWatch (Amazon CloudWatch) · Grafana (Dashboards) · Fluent Bit (Log Shipper)
                 </p>
               </div>
             </div>
@@ -309,24 +305,42 @@ export default function Home() {
                 <h3 className="mb-1 text-sm font-semibold text-slate-50">
                   {project.title}
                 </h3>
+
+                {/* Proof row (screenshots only) */}
+                <div className="mb-2 flex flex-wrap items-center gap-2 text-[11px]">
+                  <a
+                    href={project.repoUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={chip}
+                  >
+                    Repo
+                  </a>
+
+                  <span className="rounded-full border border-slate-800/80 bg-slate-950/60 px-3 py-1 font-semibold text-slate-300">
+                    Proof
+                  </span>
+
+                  <div className="flex items-center gap-2">
+                    {project.screenshots.map((src, i) => (
+                      <a
+                        key={src}
+                        href={src}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="rounded-full border border-slate-800/80 bg-slate-950/60 px-2 py-1 font-semibold text-slate-300 transition hover:border-emerald-400/70 hover:text-emerald-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/60"
+                        title={`Proof screenshot ${i + 1}`}
+                      >
+                        {i + 1}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+
                 <p className="mb-2 text-[11px] text-slate-400">{project.stack}</p>
                 <p className="mb-3 text-xs text-slate-300">{project.description}</p>
 
                 <div className="mb-3 grid gap-2">
-                  <a
-                    href={project.archImage}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="overflow-hidden rounded-2xl border border-slate-800/80 bg-slate-950/60 p-2"
-                  >
-                    <img
-                      src={project.archImage}
-                      alt={`${project.title} architecture diagram`}
-                      className="h-44 w-full object-contain transition group-hover:scale-[1.01]"
-                      loading="lazy"
-                    />
-                  </a>
-
                   <div className="grid grid-cols-3 gap-2">
                     {project.screenshots.map((src) => (
                       <a
@@ -418,6 +432,30 @@ export default function Home() {
               · George Brown College – Recognized twice for academic excellence in
               the Computer Systems Technician program.
             </p>
+
+            <div className="mt-4 flex flex-wrap items-center gap-3">
+              <a
+                href="https://www.credly.com/badges/56a42f7d-fb16-4d99-aace-e0dd003fe6b9/public_url"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-3 rounded-2xl border border-slate-800/80 bg-slate-950/60 p-3 hover:border-emerald-400/70"
+              >
+                <img
+                  src="/certs/aws-saa.png"
+                  alt="AWS Certified Solutions Architect – Associate badge"
+                  className="h-12 w-12"
+                  loading="lazy"
+                />
+                <div className="leading-tight">
+                  <div className="text-[12px] font-semibold text-slate-50">
+                    AWS Certified Solutions Architect – Associate
+                  </div>
+                  <div className="text-[11px] text-slate-400">
+                    View badge on Credly
+                  </div>
+                </div>
+              </a>
+            </div>
           </div>
         </section>
 
